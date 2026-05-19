@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>United Airlines and Air Canada</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:url('image/uaac.jpg') center/cover no-repeat fixed;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* SECTION SETTINGS - RESPONSIVE PADDING (ZOOM SAFE) */
+section{
+    min-height:100vh;
+    padding: clamp(20px, 5vw, 40px);
+    display:none;
+    position:relative;
+    animation:fadeIn 1s ease;
+}
+
+section::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    z-index:0;
+}
+
+section *{
+    position:relative;
+    z-index:1;
+}
+
+.active{
+    display:block;
+}
+
+/* UNITED BACKGROUND */
+#united,
+#uahistory,
+#uassr,
+#uarouting,
+#uaname{
+    background:url('image/ua.jpg') center/cover no-repeat fixed;
+}
+
+/* AIR CANADA BACKGROUND */
+#aircanada,
+#achistory,
+#acssr,
+#acrouting,
+#acname{
+    background:url('image/ac.jpg') center/cover no-repeat fixed;
+}
+
+/* TITLES - FLUID FONTS */
+h1,h2{
+    text-align:center;
+    margin-bottom:30px;
+    word-break:break-word;
+}
+h1 {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+}
+h2 {
+    font-size: clamp(1.4rem, 5vw, 2.2rem);
+}
+
+/* GRID - FULLY RESPONSIVE (handles zoom & small screens) */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:25px;
+    width:100%;
+}
+
+/* CARD */
+.card{
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    cursor:pointer;
+    transition:0.5s;
+    box-shadow:0 0 15px rgba(0,0,0,0.6);
+}
+
+.card img{
+    width:100%;
+    height:auto;
+    aspect-ratio: 4 / 3;
+    object-fit:cover;
+    transition:0.5s;
+    display:block;
+}
+
+.card:hover img{
+    transform:scale(1.1);
+    filter:brightness(30%);
+}
+
+/* OVERLAY */
+.overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    opacity:0;
+    transition:0.5s;
+    overflow:auto;
+}
+
+.card:hover .overlay{
+    opacity:1;
+}
+
+.overlay h3{
+    color:#38bdf8;
+    margin-bottom:10px;
+    font-size: clamp(1rem, 4vw, 1.3rem);
+}
+.overlay p, .overlay h2 {
+    font-size: clamp(0.8rem, 3vw, 1rem);
+}
+
+/* BUTTON */
+button{
+    margin-top:30px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0284c7;
+}
+
+/* TABLE - HORIZONTAL SCROLL FOR ZOOM/RESPONSIVE */
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    margin: 20px 0;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    color:black;
+    margin-top:20px;
+    min-width: 500px;
+}
+table th{
+    background:#0f172a;
+    color:white;
+}
+table th, table td{
+    border:1px solid black;
+    padding:12px;
+    text-align:center;
+}
+
+/* NOTE */
+.note{
+    margin-top:20px;
+    background:#1e3a8a;
+    padding:15px;
+    border-radius:10px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* GUIDE BUTTON STYLES */
+.guide-btn-container{
+    text-align:center;
+    margin-top:40px;
+}
+.guide-main-btn{
+    background:#f39c12;
+    padding:14px 32px;
+    font-size:18px;
+    font-weight:bold;
+    border-radius:50px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+.guide-main-btn:hover{
+    background:#e67e22;
+}
+
+/* CHAT MODAL STYLES - RESPONSIVE */
+.chat-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.2s;
+}
+.chat-overlay.active-chat {
+    visibility: visible;
+    opacity: 1;
+}
+.chat-container {
+    width: 90%;
+    max-width: 520px;
+    height: 70vh;
+    max-height: 620px;
+    background: #1e293b;
+    border-radius: 28px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #facc15;
+}
+.chat-header {
+    background: #0f172a;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #facc15;
+}
+.chat-header h3 {
+    color: #facc15;
+    font-size: 1.1rem;
+}
+.close-chat {
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: white;
+    cursor: pointer;
+}
+.close-chat:hover {
+    color: #f97316;
+}
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #0f172ad9;
+}
+.message {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    word-break: break-word;
+    line-height: 1.4;
+}
+.bot-msg {
+    background: #2d3a5e;
+    color: white;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+.user-msg {
+    background: #facc15;
+    color: #0f172a;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+.chat-input-area {
+    display: flex;
+    padding: 12px;
+    background: #0f172a;
+    gap: 8px;
+    border-top: 1px solid #facc1566;
+    flex-wrap: wrap;
+}
+.chat-input-area input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 40px;
+    border: none;
+    outline: none;
+    background: #334155;
+    color: white;
+    min-width: 120px;
+}
+.chat-input-area input::placeholder {
+    color: #cbd5e1;
+    font-size: 0.8rem;
+}
+.chat-input-area button {
+    margin: 0;
+    padding: 0 20px;
+    background: #facc15;
+    color: #0f172a;
+    font-weight: bold;
+    border-radius: 40px;
+}
+.chat-input-area button:hover {
+    background: #ffd966;
+}
+.command-hint {
+    background: #1e293b;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-align: center;
+    color: #cbd5e6;
+    border-top: 1px solid #475569;
+}
+
+/* EXTRA RESPONSIVE FIXES FOR ZOOM (80% and below) */
+@media (max-width: 800px) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+    }
+    section {
+        padding: 25px 20px;
+    }
+    table {
+        min-width: 450px;
+    }
+    .card img {
+        aspect-ratio: 16 / 9;
+    }
+}
+
+@media (max-width: 550px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .overlay h2, .overlay h3 {
+        font-size: 1rem;
+    }
+    button {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+    .guide-main-btn {
+        padding: 10px 24px;
+        font-size: 16px;
+        white-space: normal;
+    }
+    .chat-container {
+        width: 95%;
+        height: 80vh;
+    }
+}
+
+@media (max-width: 380px) {
+    .overlay p {
+        font-size: 0.7rem;
+    }
+    table th, table td {
+        padding: 6px 4px;
+        font-size: 0.7rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<section id="home" class="active">
+
+<h1>United Airlines & Air Canada</h1>
+
+<div class="grid">
+
+<div class="card" onclick="showPage('united')">
+<img src="image/UA.jpg">
+<div class="overlay">
+<h2>United Airlines</h2>
+<p>Click to Explore</p>
+</div>
+</div>
+
+<div class="card" onclick="showPage('aircanada')">
+<img src="image/AC.jpg">
+<div class="overlay">
+<h2>Air Canada</h2>
+<p>Click to Explore</p>
+</div>
+</div>
+
+</div>
+
+<div class="guide-btn-container">
+    <button class="guide-main-btn" id="openGuideBtn">💬 Guide / Chat Assistant</button>
+</div>
+
+</section>
+
+<!-- UNITED MAIN -->
+<section id="united">
+<h1>United Airlines</h1>
+<div class="grid">
+<div class="card" onclick="showPage('uahistory')"><img src="image/logo.jpg"><div class="overlay"><h2>Brief History of United Airlines</h2></div></div>
+<div class="card" onclick="showPage('uassr')"><img src="image/logo.jpg"><div class="overlay"><h2>Special Service Requests (SSR) Available for United Airlines</h2></div></div>
+<div class="card" onclick="showPage('uarouting')"><img src="image/logo.jpg"><div class="overlay"><h2>Routings & Networks</h2></div></div>
+<div class="card" onclick="showPage('uaname')"><img src="image/logo.jpg"><div class="overlay"><h2>Name Correction Policy (2026)</h2></div></div>
+</div>
+<center><button onclick="showPage('home')">Back</button></center>
+</section>
+
+<!-- UNITED HISTORY -->
+<section id="uahistory">
+<h1>United Airlines - Brief History</h1>
+<div class="grid">
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Founded</h3><p>United Airlines was founded in 1926 as Varney Air Lines and officially became United Air Lines in 1931. It is considered one of the oldest commercial airlines in the United States and played a major role in shaping modern aviation.</p></div></div>
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Key Milestones</h3><p>In 1930, United hired Ellen Church, the world's first flight attendant. In 2010, United merged with Continental Airlines, forming one of the largest airline companies in the world. The merger expanded international routes and strengthened its global presence.</p></div></div>
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Innovation</h3><p>United pioneered the “Hub and Spoke” system which improved passenger connections and route efficiency. It also introduced “Mainliner” service in the 1930s, improving long-distance passenger travel.</p></div></div>
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Current Status</h3><p>Headquartered in Chicago, United Airlines operates one of the world's largest route networks. Major hubs include Newark, Chicago, Denver, San Francisco, and Houston.</p></div></div>
+</div>
+<center><button onclick="showPage('united')">Back</button></center>
+</section>
+
+<!-- UNITED SSR -->
+<section id="uassr">
+<h1>United Airlines - SSR</h1>
+<div class="table-wrapper">
+<table>
+<thead><tr><th>Category</th><th>SSR Code</th><th>Description</th></tr></thead>
+<tbody><tr><td>Mobility</td><td>WCHR / WCHS</td><td>Wheelchair (R = Ramp, S = Stairs)</td></tr>
+<tr><td>Medical</td><td>MEDA / OXYG</td><td>Medical Case / Oxygen Requirement</td></tr>
+<tr><td>Dietary</td><td>VGML / KSML</td><td>Vegan Meal / Kosher Meal</td></tr>
+<tr><td>Infants</td><td>INFT / BSCT</td><td>Infant (on lap) / Bassinet Request</td></tr>
+<tr><td>Assistance</td><td>MAAS / BLND</td><td>Meet and Assist / Blind Passenger</td></tr>
+<tr><td>Pets</td><td>PETC / AVIH</td><td>Pet in Cabin / Animal in Hold</td></tr>
+<tr><td>Minors</td><td>UMNR</td><td>Unaccompanied Minor</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note"><b>Note:</b> As of June 1, 2026, the INST (Infant with a seat) SSR became mandatory for most international carriers to ensure proper seating and safety regulations.</div>
+<center><button onclick="showPage('united')">Back</button></center>
+</section>
+
+<!-- UNITED ROUTINGS -->
+<section id="uarouting">
+<h1>United Airlines - Routings & Networks</h1>
+<div class="grid"><div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Major Hubs</h3><p>Chicago (ORD) serves as United’s headquarters and central hub. Denver (DEN) supports western and mountain routes. Guam (GUM) connects Pacific destinations. Houston (IAH) focuses on Latin America. Los Angeles (LAX) handles Pacific operations. Newark (EWR) is a key Atlantic gateway. San Francisco (SFO) connects Asia-Pacific routes. Washington D.C. (IAD) supports government and international travel.</p></div></div>
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Primary Routes</h3><p>United Airlines is strongest across the Pacific through San Francisco and across the Atlantic through Newark. In 2026, the airline expanded into niche European destinations such as Split, Croatia and Bari, Italy.</p></div></div></div>
+<center><button onclick="showPage('united')">Back</button></center>
+</section>
+
+<!-- UNITED NAME -->
+<section id="uaname">
+<h1>United Airlines - Name Correction Policy</h1>
+<div class="grid"><div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Minor Corrections</h3><p>Typos with up to three incorrect characters may usually be corrected free of charge if the ticket is entirely operated by United Airlines. Passengers may also cancel and rebook for free within 24 hours of purchase.</p></div></div>
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Legal Changes</h3><p>Passengers changing names due to marriage or divorce must provide legal documents such as marriage certificates. Additional fees may apply depending on fare rules.</p></div></div>
+<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Contact</h3><p>Name corrections must be handled directly through United Reservations or the original travel agency where the ticket was purchased.</p></div></div></div>
+<center><button onclick="showPage('united')">Back</button></center>
+</section>
+
+<!-- AIR CANADA MAIN -->
+<section id="aircanada">
+<h1>Air Canada</h1>
+<div class="grid">
+<div class="card" onclick="showPage('achistory')"><img src="image/logo2.jpg"><div class="overlay"><h2>Brief History</h2></div></div>
+<div class="card" onclick="showPage('acssr')"><img src="image/logo2.jpg"><div class="overlay"><h2>SSR</h2></div></div>
+<div class="card" onclick="showPage('acrouting')"><img src="image/logo2.jpg"><div class="overlay"><h2>Routings</h2></div></div>
+<div class="card" onclick="showPage('acname')"><img src="image/logo2.jpg"><div class="overlay"><h2>Name Correction</h2></div></div>
+</div>
+<center><button onclick="showPage('home')">Back</button></center>
+</section>
+
+<!-- AIR CANADA HISTORY -->
+<section id="achistory"><h1>Air Canada - Brief History</h1><div class="grid"><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Founded</h3><p>Air Canada was founded in 1937 as Trans-Canada Air Lines and officially renamed Air Canada in 1965. It became the country’s flag carrier and one of the largest airlines in North America.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Key Milestones</h3><p>In 1963, Air Canada introduced ReserVec, the world’s first computerized reservation system. In 1990, it became the first airline to offer completely smoke-free flights between North America and Europe. In 2000, it merged with Canadian Airlines, strengthening its position as Canada’s largest airline.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Current Status</h3><p>Headquartered in Montreal, Air Canada operates an extensive global network. It is known for strong Canada-US routes and popular leisure destinations across the world.</p></div></div></div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+
+<!-- AIR CANADA SSR -->
+<section id="acssr"><h1>Air Canada - SSR</h1><div class="table-wrapper"><table><thead><tr><th>Category</th><th>SSR Code</th><th>Description</th></tr></thead><tbody><tr><td>Mobility</td><td>WCHR / WCHS</td><td>Wheelchair (R = Ramp, S = Stairs)</td></tr><tr><td>Medical</td><td>MEDA / OXYG</td><td>Medical Case / Oxygen Requirement</td></tr><tr><td>Dietary</td><td>VGML / KSML</td><td>Vegan Meal / Kosher Meal</td></tr><tr><td>Infants</td><td>INFT / BSCT</td><td>Infant (on lap) / Bassinet Request</td></tr><tr><td>Assistance</td><td>MAAS / BLND</td><td>Meet and Assist / Blind Passenger</td></tr><tr><td>Pets</td><td>PETC / AVIH</td><td>Pet in Cabin / Animal in Hold</td></tr><tr><td>Minors</td><td>UMNR</td><td>Unaccompanied Minor</td></tr></tbody></table></div><div class="note"><b>Note:</b> As of June 1, 2026, the INST (Infant with a seat) SSR became mandatory for most international carriers to ensure proper seating and safety regulations.</div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+
+<!-- AIR CANADA ROUTINGS -->
+<section id="acrouting"><h1>Air Canada - Routings & Networks</h1><div class="grid"><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Major Hubs</h3><p>Toronto (YYZ) is Air Canada’s busiest international hub. Montreal (YUL) serves many European destinations. Vancouver (YVR) supports Pacific operations. Calgary (YYC) handles western Canadian routes and domestic connections.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Primary Routes</h3><p>Air Canada dominates the Canada-US market and continues expanding its leisure routes. In 2026, the airline added destinations such as Tenerife, Roatán, and Mérida to strengthen tourism operations.</p></div></div></div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+
+<!-- AIR CANADA NAME -->
+<section id="acname"><h1>Air Canada - Name Correction Policy</h1><div class="grid"><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>3-Character Rule</h3><p>Air Canada allows corrections for small typographical errors without requiring a complete ticket reissue. Examples include names such as “Sarah” corrected from “Srah”.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Fees</h3><p>Passengers with Standard or Flex fares may pay correction fees ranging from $60 to $125 CAD depending on fare rules.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Business / Latitude</h3><p>Business and Latitude fares often include free name corrections. Missing middle names are usually accepted if first and last names match the passenger ID exactly.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>24-Hour Rule</h3><p>Passengers may cancel or correct bookings free of charge within 24 hours after purchase.</p></div></div></div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+
+<!-- CHAT MODAL -->
+<div id="guideChatOverlay" class="chat-overlay">
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>✈️ United & Air Canada Assistant</h3>
+            <button class="close-chat" id="closeChatBtn">✖</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-msg">👋 Hello! Try these commands:<br>📌 <b>10triviasua</b> → 10 United trivias<br>📌 <b>10triviasac</b> → 10 Air Canada trivias<br>📌 <b>10triviasuava</b> → United+Virgin Australia trivias<br>📌 <b>10triviasacva</b> → Air Canada+Virgin Australia trivias<br>📌 <b>websiteua / websiteac</b> → official websites<br>📌 <b>aircraft</b> → aircraft fleet links<br>📌 <b>fare classes</b> or <b>fare brands</b><br>Also ask about SSR, name policy, hubs, etc.</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Try: 10triviasua, aircraft, websiteac..." autocomplete="off">
+            <button id="sendChatBtn">Send</button>
+        </div>
+        <div class="command-hint">💡 Commands: 10triviasua | 10triviasac | 10triviasuava | 10triviasacva | websiteua | websiteac | aircraft | fare classes</div>
+    </div>
+</div>
+
+<script>
+
+function showPage(pageId){
+    let sections=document.querySelectorAll("section");
+    sections.forEach(section=>{ section.classList.remove("active"); });
+    document.getElementById(pageId).classList.add("active");
+    window.scrollTo(0,0);
+}
+
+// ---------- ENHANCED CHATBOT WITH TRIVIAS, WEBSITES, AIRCRAFT, FARE CLASSES ----------
+const chatOverlay = document.getElementById('guideChatOverlay');
+const openGuideBtn = document.getElementById('openGuideBtn');
+const closeChatBtn = document.getElementById('closeChatBtn');
+const sendBtn = document.getElementById('sendChatBtn');
+const chatInput = document.getElementById('chatInput');
+const chatMessagesDiv = document.getElementById('chatMessages');
+
+function addMessage(text, isUser = false) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message');
+    msgDiv.classList.add(isUser ? 'user-msg' : 'bot-msg');
+    msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+    chatMessagesDiv.appendChild(msgDiv);
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+}
+
+function getBotAnswer(q) {
+    const query = q.toLowerCase().trim();
+    
+    // 1. TRIVIA COMMANDS
+    if(query === '10triviasuava') {
+        return "✈️ 10 Trivias: United Airlines & Virgin Australia:\n1. Partnership allows easy US-Australia connections.\n2. United became major partner after Virgin ended Delta alliance.\n3. Earn miles between MileagePlus & Velocity.\n4. Virgin connects to Sydney, Melbourne, Brisbane.\n5. United operates long-haul to Australia; Virgin provides domestic links.\n6. Improved travel for business & tourism across Pacific.\n7. Coordinated schedules for smoother transfers.\n8. Lounge access for premium/frequent flyers.\n9. Pandemic route adjustments to restore demand.\n10. Strengthened competition against Qantas & American on Pacific routes.";
+    }
+    if(query === '10triviasacva') {
+        return "🍁✈️ 10 Trivias: Air Canada & Virgin Australia (indirect partnerships):\n1. Air Canada is Canada’s flag carrier; Virgin Atlantic is UK-based.\n2. Both connect via London Heathrow.\n3. Air Canada (Star Alliance) vs Virgin Atlantic (SkyTeam).\n4. Both operate 787 Dreamliner & A330.\n5. Air Canada connects Toronto/Vancouver globally; Virgin connects London to Americas.\n6. Compete on transatlantic premium cabins.\n7. Aeroplan vs Virgin Points loyalty.\n8. Virgin Australia links via global booking systems.\n9. Strong inflight branding: maple leaf vs bold red Virgin.\n10. Post-COVID adapted networks focusing on high-demand corridors.";
+    }
+    if(query === '10triviasua') {
+        return "✈️ 10 Trivias about United Airlines:\n1. Founded 1926, one of oldest airlines.\n2. One of world's largest by fleet & network.\n3. Founding member of Star Alliance.\n4. Major hubs: Chicago, Denver, Houston.\n5. First airline to introduce Boeing 777.\n6. MileagePlus loyalty program.\n7. Flights to every inhabited continent.\n8. San Francisco as key Asia-Pacific gateway.\n9. Merged with Continental in 2010.\n10. Operates one of largest Boeing & Airbus fleets.";
+    }
+    if(query === '10triviasac') {
+        return "🍁 10 Trivias about Air Canada:\n1. Founded 1937, largest Canadian airline.\n2. Founding Star Alliance member.\n3. Main hub: Toronto Pearson (YYZ).\n4. Major routes from Vancouver & Montreal.\n5. Operates Boeing 787 Dreamliner.\n6. Aeroplan loyalty program.\n7. Serves 180+ destinations on six continents.\n8. Vancouver hub connects Canada to Asia-Pacific.\n9. Privatized in 1989 (formerly government-owned).\n10. Operates Air Canada Rouge for leisure routes.";
+    }
+    
+    // 2. WEBSITE COMMANDS
+    if(query === 'websiteua') {
+        return "🌐 United Airlines Official Website:\nhttps://www.united.com/en/us";
+    }
+    if(query === 'websiteac') {
+        return "🌐 Air Canada Official Website:\nhttps://www.aircanada.com/home/ca/en/aco/flights";
+    }
+    
+    // 3. AIRCRAFT COMMANDS
+    if(query.includes('aircraft')) {
+        return "✈️ Aircraft fleet information:\n• United Airlines fleet: https://www.united.com/en/us/fly/company/aircraft/uniteds-fleet.html\n• Air Canada aircraft details: https://www.aircanada.com/ca/en/aco/home/search-results.html?q=aircraft#/";
+    }
+    
+    // 4. FARE BRANDS & CLASSES
+    if(query.includes('fare') && (query.includes('united') || query.includes('ua'))) {
+        return "✈️ United Fare Brands: Basic Economy, Economy, Economy Plus (legroom), Premium Plus (premium economy), Polaris (business), First (domestic).\nFare classes: Y,B,M (full fare); H,Q,V,W,S,T,L,K,G (discount); O,I (premium discounted).";
+    }
+    if(query.includes('fare') && (query.includes('air canada') || query.includes('ac'))) {
+        return "🍁 Air Canada Fare Brands: Basic, Standard, Flex, Comfort (extra legroom), Premium Economy, Signature Class (business lie-flat).\nFare classes: Y,B,M (full fare); U,H,Q,V,W,S,T,L,K (discount); P,J,Z,C (business); O/E (premium inventory).";
+    }
+    if(query.includes('fare classes') || (query.includes('fare') && query.includes('brand'))) {
+        return "✈️ United Fare Brands: Basic Economy, Economy, Economy Plus, Premium Plus, Polaris. Fare letters: Y,B,M,H,Q,V,W,S,T,L,K,G,O,I.\n\n🍁 Air Canada Fare Brands: Basic, Standard, Flex, Comfort, Premium Economy, Signature. Fare letters: Y,B,M,U,H,Q,V,W,S,T,L,K,P,J,Z,C,O,E.";
+    }
+    
+    // 5. GENERAL TRIVIA or existing knowledge
+    if(query.includes('united') && query.includes('virgin australia') && query.includes('trivia')) {
+        return "United & Virgin Australia partnership trivias: Type '10triviasuava' for full list!";
+    }
+    if(query.includes('air canada') && query.includes('virgin australia')) {
+        return "Air Canada & Virgin Group context: Type '10triviasacva' for the 10 trivias including Virgin Atlantic/partnership details.";
+    }
+    
+    // 6. STANDARD RESPONSES (preserve original content)
+    if(query.includes('united') || query.includes('ua')) {
+        if(query.includes('ssr') || query.includes('wheelchair') || query.includes('medical')) return "United SSR codes: WCHR/WCHS (wheelchair), MEDA/OXYG (medical), VGML/KSML (meals), INFT/BSCT (infants), MAAS/BLND, PETC, UMNR.";
+        if(query.includes('name') || query.includes('correction')) return "United name policy: Up to 3 incorrect characters free on UA metal. 24-hour free cancellation. Legal changes need documents.";
+        if(query.includes('routing') || query.includes('hub')) return "United hubs: ORD, DEN, EWR, SFO, IAH, LAX, IAD. 2026 added Split & Bari.";
+        return "United Airlines: founded 1926, merged with Continental 2010. Ask about SSR, name policy, fare brands, or type '10triviasua' for fun facts!";
+    }
+    if(query.includes('air canada') || query.includes('ac')) {
+        if(query.includes('ssr') || query.includes('wheelchair')) return "Air Canada SSR: WCHR/WCHS, MEDA/OXYG, VGML/KSML, INFT/BSCT, MAAS/BLND, PETC, UMNR.";
+        if(query.includes('name') || query.includes('correction')) return "Air Canada: 3-character typo fix. Fees $60-125 CAD (Standard/Flex). Business/Latitude often free. 24h free cancel.";
+        if(query.includes('routing') || query.includes('hub')) return "Air Canada hubs: YYZ, YUL, YVR, YYC. 2026 new: Tenerife, Roatán, Mérida.";
+        return "Air Canada: Canada's flag carrier since 1937. Try '10triviasac' or ask about fare classes, SSR, or name changes.";
+    }
+    if(query.includes('2026') && query.includes('infant')) return "As of June 1, 2026, INST (Infant with a seat) SSR is mandatory for most international carriers including United & Air Canada.";
+    if(query.includes('ssr')) return "Common SSR codes: WCHR (wheelchair), MEDA (medical), INFT (infant lap), BSCT (bassinet), UMNR (minor), PETC (pet).";
+    
+    return "🤖 Available commands:\n• 10triviasua – United trivias\n• 10triviasac – Air Canada trivias\n• 10triviasuava – United+Virgin Australia\n• 10triviasacva – Air Canada+Virgin Australia\n• websiteua / websiteac – official links\n• aircraft – fleet URLs\n• fare classes – United & AC fare brands\nAsk about SSR, name correction, hubs, etc!";
+}
+
+function sendMessage() {
+    let userText = chatInput.value.trim();
+    if(userText === "") return;
+    addMessage(userText, true);
+    chatInput.value = "";
+    setTimeout(() => {
+        const reply = getBotAnswer(userText);
+        addMessage(reply, false);
+    }, 200);
+}
+
+function openChat() { chatOverlay.classList.add('active-chat'); setTimeout(() => chatInput.focus(), 100); }
+function closeChat() { chatOverlay.classList.remove('active-chat'); }
+
+openGuideBtn.addEventListener('click', openChat);
+closeChatBtn.addEventListener('click', closeChat);
+sendBtn.addEventListener('click', sendMessage);
+chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+chatOverlay.addEventListener('click', (e) => { if(e.target === chatOverlay) closeChat(); });
+
+</script>
+
+</body>
+</html>
