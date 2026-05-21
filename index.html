@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>United Airlines and Air Canada</title>
 
 <style>
@@ -20,10 +20,10 @@ body{
     overflow-x:hidden;
 }
 
-/* SECTION SETTINGS - RESPONSIVE PADDING (ZOOM SAFE) */
+/* SECTION SETTINGS */
 section{
     min-height:100vh;
-    padding: clamp(20px, 5vw, 40px);
+    padding:40px;
     display:none;
     position:relative;
     animation:fadeIn 1s ease;
@@ -64,25 +64,17 @@ section *{
     background:url('image/ac.jpg') center/cover no-repeat fixed;
 }
 
-/* TITLES - FLUID FONTS */
+/* TITLES */
 h1,h2{
     text-align:center;
     margin-bottom:30px;
-    word-break:break-word;
-}
-h1 {
-    font-size: clamp(1.8rem, 6vw, 3rem);
-}
-h2 {
-    font-size: clamp(1.4rem, 5vw, 2.2rem);
 }
 
-/* GRID - FULLY RESPONSIVE (handles zoom & small screens) */
+/* GRID */
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:25px;
-    width:100%;
 }
 
 /* CARD */
@@ -97,11 +89,9 @@ h2 {
 
 .card img{
     width:100%;
-    height:auto;
-    aspect-ratio: 4 / 3;
+    height:320px;
     object-fit:cover;
     transition:0.5s;
-    display:block;
 }
 
 .card:hover img{
@@ -131,10 +121,6 @@ h2 {
 .overlay h3{
     color:#38bdf8;
     margin-bottom:10px;
-    font-size: clamp(1rem, 4vw, 1.3rem);
-}
-.overlay p, .overlay h2 {
-    font-size: clamp(0.8rem, 3vw, 1rem);
 }
 
 /* BUTTON */
@@ -153,24 +139,20 @@ button:hover{
     background:#0284c7;
 }
 
-/* TABLE - HORIZONTAL SCROLL FOR ZOOM/RESPONSIVE */
-.table-wrapper {
-    overflow-x: auto;
-    width: 100%;
-    margin: 20px 0;
-}
+/* TABLE */
 table{
     width:100%;
     border-collapse:collapse;
     background:white;
     color:black;
     margin-top:20px;
-    min-width: 500px;
 }
+
 table th{
     background:#0f172a;
     color:white;
 }
+
 table th, table td{
     border:1px solid black;
     padding:12px;
@@ -181,8 +163,21 @@ table th, table td{
 .note{
     margin-top:20px;
     background:#1e3a8a;
-    padding:15px;
+    padding:20px;
     border-radius:10px;
+    line-height:1.7;
+}
+
+/* SMALL BOX */
+.small-box{
+    max-width:500px;
+    margin:auto;
+    background:#0f172a;
+    padding:20px;
+    border-radius:15px;
+    border:2px solid #38bdf8;
+    text-align:center;
+    line-height:1.6;
 }
 
 /* ANIMATION */
@@ -191,6 +186,7 @@ table th, table td{
         opacity:0;
         transform:translateY(20px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
@@ -214,7 +210,7 @@ table th, table td{
     background:#e67e22;
 }
 
-/* CHAT MODAL STYLES - RESPONSIVE */
+/* CHAT MODAL STYLES */
 .chat-overlay {
     position: fixed;
     inset: 0;
@@ -301,7 +297,6 @@ table th, table td{
     background: #0f172a;
     gap: 8px;
     border-top: 1px solid #facc1566;
-    flex-wrap: wrap;
 }
 .chat-input-area input {
     flex: 1;
@@ -311,7 +306,6 @@ table th, table td{
     outline: none;
     background: #334155;
     color: white;
-    min-width: 120px;
 }
 .chat-input-area input::placeholder {
     color: #cbd5e1;
@@ -339,56 +333,234 @@ table th, table td{
     border-top: 1px solid #475569;
 }
 
-/* EXTRA RESPONSIVE FIXES FOR ZOOM (80% and below) */
-@media (max-width: 800px) {
-    .grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 18px;
-    }
-    section {
-        padding: 25px 20px;
-    }
-    table {
-        min-width: 450px;
-    }
-    .card img {
-        aspect-ratio: 16 / 9;
-    }
+/* ========== ANIMATED FALLING MAPLE LEAF (AIR CANADA) ========== */
+.falling-leaf-container {
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    z-index: 999;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.falling-leaf-container:hover {
+    transform: scale(1.05);
+}
+.animated-maple-leaf {
+    width: 80px;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.4));
+    animation: mapleFall 2.5s ease-in-out infinite;
+}
+@keyframes mapleFall {
+    0% { transform: translateY(-8px) rotate(0deg); opacity: 0.9; }
+    50% { transform: translateY(12px) rotate(12deg); opacity: 1; }
+    100% { transform: translateY(-8px) rotate(0deg); opacity: 0.9; }
+}
+.click-label {
+    background: #cc0000;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 40px;
+    margin-top: 8px;
+    white-space: nowrap;
+    font-family: monospace;
+    box-shadow: 0 2px 8px black;
+    pointer-events: none;
 }
 
-@media (max-width: 550px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-    .overlay h2, .overlay h3 {
-        font-size: 1rem;
-    }
-    button {
-        padding: 8px 20px;
-        font-size: 14px;
-    }
-    .guide-main-btn {
-        padding: 10px 24px;
-        font-size: 16px;
-        white-space: normal;
-    }
-    .chat-container {
-        width: 95%;
-        height: 80vh;
-    }
+/* ========== WALKING TEDDY BEAR (UNITED) ========== */
+.walking-bear {
+    position: fixed;
+    bottom: 25px;
+    right: 30px;
+    z-index: 1000;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 60px;
+    padding: 8px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #facc15;
+    transition: 0.2s;
+}
+.walking-bear:hover {
+    background: rgba(0,0,0,0.8);
+    transform: scale(1.02);
+}
+.bear-icon {
+    width: 65px;
+    animation: bearWalk 0.8s steps(4) infinite;
+}
+@keyframes bearWalk {
+    0% { transform: translateX(0px) rotate(0deg); }
+    25% { transform: translateX(4px) rotate(3deg); }
+    75% { transform: translateX(-4px) rotate(-3deg); }
+    100% { transform: translateX(0px) rotate(0deg); }
+}
+.bear-label {
+    background: #0066cc;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-top: 6px;
+    white-space: nowrap;
 }
 
-@media (max-width: 380px) {
-    .overlay p {
-        font-size: 0.7rem;
-    }
-    table th, table td {
-        padding: 6px 4px;
-        font-size: 0.7rem;
-    }
+/* ========== FUN FACTS MODAL ========== */
+.funfacts-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+}
+.funfacts-modal.active-modal {
+    visibility: visible;
+    opacity: 1;
+}
+.modal-card {
+    background: #0f172a;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    border-radius: 32px;
+    border-left: 6px solid #cc0000;
+    border-right: 2px solid #facc15;
+    overflow-y: auto;
+    padding: 25px 30px;
+    color: white;
+    box-shadow: 0 25px 40px black;
+}
+.modal-card h2 {
+    color: #ff5e5e;
+    border-bottom: 2px solid #facc15;
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+.modal-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+.modal-card li {
+    margin-bottom: 14px;
+    line-height: 1.45;
+    border-left: 3px solid #facc15;
+    padding-left: 15px;
+    font-size: 0.9rem;
+}
+.close-modal-btn {
+    background: #f97316;
+    margin-top: 25px;
+    display: block;
+    width: 130px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+}
+.close-modal-btn:hover {
+    background: #ea580c;
+}
+.video-trigger {
+    position: fixed;
+    bottom: 75px;
+    padding: 12px 22px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.video-trigger:hover {
+    transform: scale(1.08);
+}
+
+.united-video-btn {
+    left: 20px; /* same side as Ben Flyin */
+    background: #005da8;
+    color: white;
+    border: 2px solid #7dd3fc;
+}
+
+.aircanada-video-btn {
+    right: 30px; /* same side as Maple Leaf */
+    background: #cc0000;
+    color: white;
+    border: 2px solid #facc15;
+}
+@keyframes pulseBtn {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+/* VIDEO MODAL */
+.video-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 5000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+}
+
+.video-modal.active-video {
+    visibility: visible;
+    opacity: 1;
+}
+
+.video-box {
+    width: 90%;
+    max-width: 900px;
+    position: relative;
+}
+
+.video-box iframe {
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+.close-video {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: #f97316;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+    cursor: pointer;
 }
 </style>
 </head>
+
 <body>
 
 <!-- HOME PAGE -->
@@ -399,7 +571,7 @@ table th, table td{
 <div class="grid">
 
 <div class="card" onclick="showPage('united')">
-<img src="image/ua.jpg">
+<img src="image/UA.jpg">
 <div class="overlay">
 <h2>United Airlines</h2>
 <p>Click to Explore</p>
@@ -407,7 +579,7 @@ table th, table td{
 </div>
 
 <div class="card" onclick="showPage('aircanada')">
-<img src="image/ac.jpg">
+<img src="image/AC.jpg">
 <div class="overlay">
 <h2>Air Canada</h2>
 <p>Click to Explore</p>
@@ -422,92 +594,729 @@ table th, table td{
 
 </section>
 
+<!-- ================= UNITED AIRLINES ================= -->
+
 <!-- UNITED MAIN -->
 <section id="united">
+
 <h1>United Airlines</h1>
+
 <div class="grid">
-<div class="card" onclick="showPage('uahistory')"><img src="image/logo.jpg"><div class="overlay"><h2>Brief History of United Airlines</h2></div></div>
-<div class="card" onclick="showPage('uassr')"><img src="image/logo.jpg"><div class="overlay"><h2>Special Service Requests (SSR) Available for United Airlines</h2></div></div>
-<div class="card" onclick="showPage('uarouting')"><img src="image/logo.jpg"><div class="overlay"><h2>Routings & Networks</h2></div></div>
-<div class="card" onclick="showPage('uaname')"><img src="image/logo.jpg"><div class="overlay"><h2>Name Correction Policy (2026)</h2></div></div>
+<!-- ========== WALKING TEDDY BEAR (UNITED) ========== -->
+<div class="walking-bear" id="teddyBearBtn">
+    <img src="image/ben.jpg" alt="Teddy Bear" class="bear-icon">
+    <div class="bear-label">🧸 Ben Flyin • Click for 11 Facts</div>
 </div>
-<center><button onclick="showPage('home')">Back</button></center>
+<!-- UNITED VIDEO BUTTON -->
+<button class="video-trigger united-video-btn"
+onclick="openVideo('image/uavid.mp4')">
+    ✈️ We are United!!
+</button>
+
+<div class="card" onclick="showPage('uahistory')">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h2>Brief History</h2>
+</div>
+</div>
+
+<div class="card" onclick="showPage('uassr')">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h2>SSR</h2>
+</div>
+</div>
+
+<div class="card" onclick="showPage('uarouting')">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h2>Routings & Networks</h2>
+</div>
+</div>
+
+<div class="card" onclick="showPage('uaname')">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h2>Name Correction Policy</h2>
+</div>
+</div>
+
+</div>
+
+<center>
+<button onclick="showPage('home')">Back</button>
+</center>
+
 </section>
 
-<!-- UNITED HISTORY -->
+<!-- UNITED HISTORY (ENHANCED) -->
 <section id="uahistory">
+
 <h1>United Airlines - Brief History</h1>
+
 <div class="grid">
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Founded</h3><p>United Airlines was founded in 1926 as Varney Air Lines and officially became United Air Lines in 1931. It is considered one of the oldest commercial airlines in the United States and played a major role in shaping modern aviation.</p></div></div>
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Key Milestones</h3><p>In 1930, United hired Ellen Church, the world's first flight attendant. In 2010, United merged with Continental Airlines, forming one of the largest airline companies in the world. The merger expanded international routes and strengthened its global presence.</p></div></div>
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Innovation</h3><p>United pioneered the “Hub and Spoke” system which improved passenger connections and route efficiency. It also introduced “Mainliner” service in the 1930s, improving long-distance passenger travel.</p></div></div>
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Current Status</h3><p>Headquartered in Chicago, United Airlines operates one of the world's largest route networks. Major hubs include Newark, Chicago, Denver, San Francisco, and Houston.</p></div></div>
+
+<div class="card">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h3>📅 Founded</h3>
+<p>
+April 6, 1926: Started as Varney Air Lines by Walter Varney.<br><br>
+First Flight: Carried airmail between Pasco, Washington, and Elko, Nevada.<br><br>
+1931: Became United Airlines after merging with Boeing's transport division.
+</p>
 </div>
-<center><button onclick="showPage('united')">Back</button></center>
+</div>
+
+<div class="card">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h3>🏆 Key Milestones</h3>
+<p>
+1934: Forced to split from Boeing due to antitrust laws.<br><br>
+1961: Merged with Capital Airlines, becoming the world's largest airline at the time.<br><br>
+1985: Bought Pan Am's Pacific routes, launching its massive Asian network.<br><br>
+1997: Co-founded Star Alliance, the world's first global airline alliance.<br><br>
+2010: Merged with Continental Airlines to create a global aviation giant.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h3>💡 Innovations</h3>
+<p>
+First Flight Nurse: Hired Ellen Church in 1930, creating the modern flight attendant profession.<br><br>
+Flight Kitchens: Introduced the first airline catering service in 1936.<br><br>
+Apollo System: Launched the first automated computerized flight reservation system in 1971.<br><br>
+Boeing 777: Worked directly with Boeing to design and launch the 777 aircraft in 1995.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="image/logo.jpg">
+<div class="overlay">
+<h3>✈️ Current Status</h3>
+<p>
+Mega Carrier: Operates as one of the "Big Three" US legacy airlines.<br><br>
+United Next: Executing a massive fleet overhaul with hundreds of new aircraft orders.<br><br>
+Global Hubs: Runs eight major hubs, including Chicago, San Francisco, and Newark.<br><br>
+Manila Service: Connects the Philippines directly to the US with non-stop flights from Manila (MNL) to San Francisco (SFO).
+</p>
+</div>
+</div>
+
+</div>
+
+<center>
+<button onclick="showPage('united')">Back</button>
+</center>
+
 </section>
 
 <!-- UNITED SSR -->
 <section id="uassr">
+
 <h1>United Airlines - SSR</h1>
-<div class="table-wrapper">
+
+<h2>GCC Can Assist With</h2>
+
+<h2>GCC Can Assist With</h2>
+
 <table>
-<thead><tr><th>Category</th><th>SSR Code</th><th>Description</th></tr></thead>
-<tbody><tr><td>Mobility</td><td>WCHR / WCHS</td><td>Wheelchair (R = Ramp, S = Stairs)</td></tr>
-<tr><td>Medical</td><td>MEDA / OXYG</td><td>Medical Case / Oxygen Requirement</td></tr>
-<tr><td>Dietary</td><td>VGML / KSML</td><td>Vegan Meal / Kosher Meal</td></tr>
-<tr><td>Infants</td><td>INFT / BSCT</td><td>Infant (on lap) / Bassinet Request</td></tr>
-<tr><td>Assistance</td><td>MAAS / BLND</td><td>Meet and Assist / Blind Passenger</td></tr>
-<tr><td>Pets</td><td>PETC / AVIH</td><td>Pet in Cabin / Animal in Hold</td></tr>
-<tr><td>Minors</td><td>UMNR</td><td>Unaccompanied Minor</td></tr>
+
+<thead>
+<tr>
+<th>SSR Code</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>BSCT</td>
+<td>Bassinet request</td>
+</tr>
+<tr>
+<td>BLND</td>
+<td>Blind or low vision guest</td>
+</tr>
+<tr>
+<td>CHLD</td>
+<td>Travelling as a child</td>
+</tr>
+<tr>
+<td>DEAF</td>
+<td>Guest is deaf</td>
+</tr>
+<tr>
+<td>FQTV</td>
+<td>Frequent Flyer details</td>
+</tr>
+<tr>
+<td>INF</td>
+<td>Infant without seat</td>
+</tr>
+<tr>
+<td>WCHC</td>
+<td>Wheelchair assistance - immobile</td>
+</tr>
+<tr>
+<td>WCHR</td>
+<td>Wheelchair assistance - ramp</td>
+</tr>
+<tr>
+<td>WCHS</td>
+<td>Wheelchair assistance - stairs</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<br><br>
+
+<h2>Special Meal SSRs</h2>
+
+<table>
+
+<thead>
+<tr><th>SSR Code</th><th>Meal Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>AVML</td><td>Asian Vegetarian</td><td>Vegetarian meal without meat, fish, or shellfish.</td></tr>
+<tr><td>GFML</td><td>Gluten-Free</td><td>Meal without wheat, barley, rye, or oats.</td></tr>
+<tr><td>KSML</td><td>Kosher</td><td>Prepared under Rabbinical supervision.</td></tr>
+<tr><td>VGML</td><td>Vegan</td><td>No animal products or by-products.</td></tr>
+</tbody>
+
+</table>
+
+<div class="note">
+
+<b>Important Notes:</b><br><br>
+
+• Special meal requests must be submitted at least <b>24 hours before departure</b>.<br><br>
+
+• SSR response codes:<br>
+✔ NN = Pending / Available<br>
+✔ UC = Not permitted<br><br>
+
+⚠ Do not add free text remarks in meal SSR requests.
+
+</div>
+
+<br><br>
+
+<h2>Guests Must Contact United Airlines Directly For</h2>
+
+<table>
+<thead><tr><th>SSR Code</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>CBBG</td><td>Transporting musical instruments</td></tr>
+<tr><td>EXST</td><td>Extra seat requests</td></tr>
+<tr><td>INS</td><td>Infant with seat</td></tr>
+<tr><td>UMNR</td><td>Unaccompanied Minor</td></tr>
+<tr><td>Unborn Infants</td><td>Pregnancy related assistance</td></tr>
 </tbody>
 </table>
-</div>
-<div class="note"><b>Note:</b> As of June 1, 2026, the INST (Infant with a seat) SSR became mandatory for most international carriers to ensure proper seating and safety regulations.</div>
-<center><button onclick="showPage('united')">Back</button></center>
+
+<center>
+<button onclick="showPage('united')">Back</button>
+</center>
+
 </section>
 
-<!-- UNITED ROUTINGS -->
+<!-- UNITED ROUTING -->
 <section id="uarouting">
+
 <h1>United Airlines - Routings & Networks</h1>
-<div class="grid"><div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Major Hubs</h3><p>Chicago (ORD) serves as United’s headquarters and central hub. Denver (DEN) supports western and mountain routes. Guam (GUM) connects Pacific destinations. Houston (IAH) focuses on Latin America. Los Angeles (LAX) handles Pacific operations. Newark (EWR) is a key Atlantic gateway. San Francisco (SFO) connects Asia-Pacific routes. Washington D.C. (IAD) supports government and international travel.</p></div></div>
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Primary Routes</h3><p>United Airlines is strongest across the Pacific through San Francisco and across the Atlantic through Newark. In 2026, the airline expanded into niche European destinations such as Split, Croatia and Bari, Italy.</p></div></div></div>
-<center><button onclick="showPage('united')">Back</button></center>
+
+<h2>Australia ↔ USA Routes</h2>
+
+<table>
+<thead><tr><th>Route</th><th>Frequency</th></tr></thead>
+<tbody>
+<tr><td>Adelaide (ADL) – San Francisco (SFO)</td><td>3x weekly (from December 2025)</td></tr>
+<tr><td>Brisbane (BNE) – San Francisco (SFO)</td><td>3x weekly</td></tr>
+<tr><td>Melbourne (MEL) – San Francisco (SFO)</td><td>3x weekly</td></tr>
+<tr><td>Melbourne (MEL) – Los Angeles (LAX)</td><td>Daily services</td></tr>
+<tr><td>Sydney (SYD) – San Francisco (SFO)</td><td>Daily services</td></tr>
+<tr><td>Sydney (SYD) – Los Angeles (LAX)</td><td>Daily services</td></tr>
+<tr><td>Sydney (SYD) – Houston Intercontinental (IAH)</td><td>4x weekly</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+
+<b>Important Notes:</b><br><br>
+
+• VA Codeshare flight numbers range from <b>VA8000–VA8599</b>.<br><br>
+
+• Guests travelling on SYD–SFO with through connections are not required to collect baggage in SFO.<br><br>
+
+• Velocity members can earn and redeem points across United Airlines worldwide network.<br><br>
+
+• Eligible members may receive:<br>
+✔ Priority check-in<br>
+✔ Priority boarding<br>
+✔ Lounge access<br>
+✔ Additional baggage allowance
+
+</div>
+
+<center>
+<button onclick="showPage('united')">Back</button>
+</center>
+
 </section>
 
 <!-- UNITED NAME -->
 <section id="uaname">
+
 <h1>United Airlines - Name Correction Policy</h1>
-<div class="grid"><div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Minor Corrections</h3><p>Typos with up to three incorrect characters may usually be corrected free of charge if the ticket is entirely operated by United Airlines. Passengers may also cancel and rebook for free within 24 hours of purchase.</p></div></div>
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Legal Changes</h3><p>Passengers changing names due to marriage or divorce must provide legal documents such as marriage certificates. Additional fees may apply depending on fare rules.</p></div></div>
-<div class="card"><img src="image/logo.jpg"><div class="overlay"><h3>Contact</h3><p>Name corrections must be handled directly through United Reservations or the original travel agency where the ticket was purchased.</p></div></div></div>
-<center><button onclick="showPage('united')">Back</button></center>
+
+<h2>Important Rules</h2>
+
+<div class="note">
+
+• All VA (795) ticket stock follows Virgin Australia name policy.<br><br>
+
+• Middle names are NOT required.<br><br>
+
+• Name changes are NOT permitted.<br><br>
+
+• Only eligible name corrections are allowed.
+
+</div>
+
+<br><br>
+
+<h2>Allowed Name Corrections</h2>
+
+<table>
+<thead><tr><th>Correction Type</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Incorrect spelling up to 3 characters</td><td>Samuelle Smyth → Samuel Smith</td></tr>
+<tr><td>Change in salutation</td><td>Ms Mary Smith → Mrs Mary Smith</td></tr>
+<tr><td>Double surname update</td><td>Mary Jane Ford Smith → Mary Jane Smith</td></tr>
+<tr><td>Name sequence correction</td><td>Smith Samuel → Samuel Smith</td></tr>
+<tr><td>Shortened version of name</td><td>Liz → Elizabeth</td></tr>
+<tr><td>Formal legal name update</td><td>Updated based on identification</td></tr>
+<tr><td>Marital status update</td><td>Surname changes after marriage</td></tr>
+<tr><td>Gender status update</td><td>Passenger gender correction</td></tr>
+</tbody>
+</table>
+
+<br><br>
+
+<h2>Name Correction Procedure</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="image/logo.jpg">
+
+<div class="overlay">
+
+<h3>Procedure</h3>
+
+<p>
+
+1. Retrieve the PNR.<br><br>
+
+2. Check availability of existing flights.<br><br>
+
+3. Create a new booking with corrected name.<br><br>
+
+4. Reassociate old ticket to new booking.<br><br>
+
+5. Process even exchange and reissue fee.<br><br>
+
+6. Contact United Airlines to verify corrected name.<br><br>
+
+7. Delete old itinerary and update remarks.<br><br>
+
+8. Resend updated itinerary.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<br><br>
+
+<div class="small-box">
+
+<h3 style="margin-bottom:15px;">
+Ways If Same Booking Class Is Unavailable
+</h3>
+
+<p>
+
+1. Seek assistance from Offshore Helpdesk and United Airlines 2. Contact Centre Leads to authorize or access the original booking class before processing the corrected booking.
+
+</p>
+
+</div>
+
+<center>
+<button onclick="showPage('united')">Back</button>
+</center>
+
 </section>
+
+<!-- ================= AIR CANADA ================= -->
 
 <!-- AIR CANADA MAIN -->
 <section id="aircanada">
+
 <h1>Air Canada</h1>
+
 <div class="grid">
-<div class="card" onclick="showPage('achistory')"><img src="image/logo2.jpg"><div class="overlay"><h2>Brief History</h2></div></div>
-<div class="card" onclick="showPage('acssr')"><img src="image/logo2.jpg"><div class="overlay"><h2>SSR</h2></div></div>
-<div class="card" onclick="showPage('acrouting')"><img src="image/logo2.jpg"><div class="overlay"><h2>Routings</h2></div></div>
-<div class="card" onclick="showPage('acname')"><img src="image/logo2.jpg"><div class="overlay"><h2>Name Correction</h2></div></div>
+<!-- ========== ANIMATED FALLING MAPLE LEAF (AIR CANADA) ========== -->
+<div class="falling-leaf-container" id="mapleLeafBtn">
+    <img src="image/maple.jpg" alt="Maple Leaf" class="animated-maple-leaf">
+    <div class="click-label">🍁 Click me for 11 fun facts</div>
 </div>
-<center><button onclick="showPage('home')">Back</button></center>
+
+<div class="card" onclick="showPage('achistory')">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h2>Brief History</h2>
+</div>
+</div>
+
+<div class="card" onclick="showPage('acssr')">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h2>Special Service Requests (SSR)</h2>
+</div>
+</div>
+
+<div class="card" onclick="showPage('acrouting')">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h2>Routings & Networks</h2>
+</div>
+</div>
+
+<div class="card" onclick="showPage('acname')">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h2>Name Correction Policy</h2>
+</div>
+</div>
+<!-- UNITED VIDEO BUTTON -->
+<!-- AIR CANADA VIDEO BUTTON -->
+<button class="video-trigger aircanada-video-btn"
+onclick="openVideo('image/acvid.mp4')">
+    🍁 Fly the Flag
+</button>
+</div>
+
+<center>
+<button onclick="showPage('home')">Back</button>
+</center>
+
 </section>
 
-<!-- AIR CANADA HISTORY -->
-<section id="achistory"><h1>Air Canada - Brief History</h1><div class="grid"><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Founded</h3><p>Air Canada was founded in 1937 as Trans-Canada Air Lines and officially renamed Air Canada in 1965. It became the country’s flag carrier and one of the largest airlines in North America.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Key Milestones</h3><p>In 1963, Air Canada introduced ReserVec, the world’s first computerized reservation system. In 1990, it became the first airline to offer completely smoke-free flights between North America and Europe. In 2000, it merged with Canadian Airlines, strengthening its position as Canada’s largest airline.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Current Status</h3><p>Headquartered in Montreal, Air Canada operates an extensive global network. It is known for strong Canada-US routes and popular leisure destinations across the world.</p></div></div></div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+<!-- AIR CANADA HISTORY (ENHANCED) -->
+<section id="achistory">
+
+<h1>Air Canada - Brief History</h1>
+
+<div class="grid">
+
+<div class="card">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h3>🇨🇦 Flag Carrier & Largest Airline</h3>
+<p>
+Air Canada is the country's largest airline and its official flag carrier. Headquartered in Montreal, it provides scheduled passenger and cargo services to more than 195 destinations across six continents.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h3>🌍 Network and Alliances</h3>
+<p>
+Star Alliance: Air Canada is a founding member of Star Alliance, which connects its network with major global airlines to provide a seamless travel experience worldwide.<br><br>
+Hubs: Its main Canadian hubs are Toronto Pearson (YYZ), Montreal-Trudeau (YUL), Vancouver International (YVR), and Calgary International (YYC).<br><br>
+Subsidiaries: The airline operates a leisure-focused subsidiary called Air Canada Rouge for select vacation and holiday routes.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h3>✈️ Onboard Experience</h3>
+<p>
+Cabins: Depending on the route and aircraft, the airline offers Economy, Premium Economy, and Air Canada Signature Class (its premium international business class with lie-flat seats).<br><br>
+Amenities: It features in-flight entertainment in all cabins and provides in-seat Wi-Fi on its narrow-body and wide-body aircraft.<br><br>
+Awards: It is recognized as a Four-Star international network carrier and frequently wins awards as the Best Airline in North America.
+</p>
+</div>
+</div>
+
+<div class="card">
+<img src="image/logo2.jpg">
+<div class="overlay">
+<h3>📅 Historical Roots</h3>
+<p>
+Founded in 1937 as Trans-Canada Air Lines (TCA), renamed Air Canada in 1965. Privatized in 1989, the airline has grown into a global aviation leader with a strong focus on customer service and operational excellence.
+</p>
+</div>
+</div>
+
+</div>
+
+<center>
+<button onclick="showPage('aircanada')">Back</button>
+</center>
+
+</section>
 
 <!-- AIR CANADA SSR -->
-<section id="acssr"><h1>Air Canada - SSR</h1><div class="table-wrapper"><table><thead><tr><th>Category</th><th>SSR Code</th><th>Description</th></tr></thead><tbody><tr><td>Mobility</td><td>WCHR / WCHS</td><td>Wheelchair (R = Ramp, S = Stairs)</td></tr><tr><td>Medical</td><td>MEDA / OXYG</td><td>Medical Case / Oxygen Requirement</td></tr><tr><td>Dietary</td><td>VGML / KSML</td><td>Vegan Meal / Kosher Meal</td></tr><tr><td>Infants</td><td>INFT / BSCT</td><td>Infant (on lap) / Bassinet Request</td></tr><tr><td>Assistance</td><td>MAAS / BLND</td><td>Meet and Assist / Blind Passenger</td></tr><tr><td>Pets</td><td>PETC / AVIH</td><td>Pet in Cabin / Animal in Hold</td></tr><tr><td>Minors</td><td>UMNR</td><td>Unaccompanied Minor</td></tr></tbody></table></div><div class="note"><b>Note:</b> As of June 1, 2026, the INST (Infant with a seat) SSR became mandatory for most international carriers to ensure proper seating and safety regulations.</div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+<section id="acssr">
+
+<h1>Air Canada - SSR</h1>
+
+<h2>GCC Can Assist With</h2>
+
+<table>
+<thead><tr><th>SSR Code</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>BSCT</td><td>Bassinet request</td></tr>
+<tr><td>YPTA</td><td>Young Person Travelling Alone (12-17 years old)</td></tr>
+<tr><td>BLND</td><td>Blind or low vision guest</td></tr>
+<tr><td>CHLD</td><td>Travelling as a child</td></tr>
+<tr><td>DEAF</td><td>Guest is deaf</td></tr>
+<tr><td>FQTV</td><td>Frequent Flyer details</td></tr>
+<tr><td>INF</td><td>Infant without seat</td></tr>
+<tr><td>INS</td><td>Infant with seat</td></tr>
+<tr><td>WCHC</td><td>Wheelchair assistance - completely immobile</td></tr>
+<tr><td>WCHR</td><td>Wheelchair assistance - ramp</td></tr>
+<tr><td>WCHS</td><td>Wheelchair assistance - stairs</td></tr>
+</tbody>
+</table>
+
+<br><br>
+
+<h2>Special Meal SSRs</h2>
+
+<table>
+<thead><tr><th>SSR Code</th><th>Meal Type</th></tr></thead>
+<tbody>
+<tr><td>AVML</td><td>Vegetarian Asian / Hindu Vegetarian Meal</td></tr>
+<tr><td>BBML</td><td>Baby Meal</td></tr>
+<tr><td>CHML</td><td>Child Meal</td></tr>
+<tr><td>DBML</td><td>Diabetic Meal</td></tr>
+<tr><td>GFML</td><td>Gluten Intolerant Meal</td></tr>
+<tr><td>HNML</td><td>Hindu Meal (Non-Vegetarian)</td></tr>
+<tr><td>KSML</td><td>Kosher Meal</td></tr>
+<tr><td>LCML</td><td>Low-Calorie Meal</td></tr>
+<tr><td>MOML</td><td>Muslim Meal</td></tr>
+<tr><td>VJML</td><td>Vegetarian Jain Meal</td></tr>
+<tr><td>VGML</td><td>Vegan Meal</td></tr>
+<tr><td>VLML</td><td>Vegetarian Lacto-Ovo Meal</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+
+<b>Important Notes:</b><br><br>
+
+• Meal requests are only available on Long Haul flights.<br><br>
+
+• Meal requests are NOT available on domestic connections.<br><br>
+
+• Guests must request meals at least <b>48 hours before departure</b>.<br><br>
+
+• Guests must contact Virgin Australia to request special meals.
+
+</div>
+
+<br><br>
+
+<h2>Guests Must Contact Air Canada Directly For</h2>
+
+<table>
+<thead><tr><th>SSR Code</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>CBBG</td><td>Transporting Cellos, Guitars or Saxophones</td></tr>
+<tr><td>EXST</td><td>Extra Seat Requests</td></tr>
+<tr><td>UMNR</td><td>Unaccompanied Minor</td></tr>
+</tbody>
+</table>
+
+<center>
+<button onclick="showPage('aircanada')">Back</button>
+</center>
+
+</section>
 
 <!-- AIR CANADA ROUTINGS -->
-<section id="acrouting"><h1>Air Canada - Routings & Networks</h1><div class="grid"><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Major Hubs</h3><p>Toronto (YYZ) is Air Canada’s busiest international hub. Montreal (YUL) serves many European destinations. Vancouver (YVR) supports Pacific operations. Calgary (YYC) handles western Canadian routes and domestic connections.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Primary Routes</h3><p>Air Canada dominates the Canada-US market and continues expanding its leisure routes. In 2026, the airline added destinations such as Tenerife, Roatán, and Mérida to strengthen tourism operations.</p></div></div></div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+<section id="acrouting">
+
+<h1>Air Canada - Routings & Networks</h1>
+
+<h2>Australia ↔ Canada Routes</h2>
+
+<table>
+<thead><tr><th>Route</th><th>Frequency</th></tr></thead>
+<tbody>
+<tr><td>Brisbane (BNE) – Vancouver (YVR)</td><td>Daily services</td></tr>
+<tr><td>Sydney (SYD) – Vancouver (YVR)</td><td>Daily services with additional seasonal frequencies</td></tr>
+</tbody>
+</table>
+
+<br><br>
+
+<h2>Domestic Canadian Connections</h2>
+
+<table>
+<thead><tr><th>City</th><th>Airport Code</th></tr></thead>
+<tbody>
+<tr><td>Calgary</td><td>YYC</td></tr>
+<tr><td>Edmonton</td><td>YEG</td></tr>
+<tr><td>Kelowna</td><td>YLW</td></tr>
+<tr><td>Montreal</td><td>YUL</td></tr>
+<tr><td>Ottawa</td><td>YOW</td></tr>
+<tr><td>Toronto</td><td>YYZ</td></tr>
+<tr><td>Winnipeg</td><td>YWG</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+
+<b>Important Notes:</b><br><br>
+
+• Through check-in (IATCI) is available for combined VA and AC itineraries.<br><br>
+
+• Guests travelling to Canada require an eTA visa as Australian tourists.<br><br>
+
+• Secure Flight Data is mandatory before ticketing can be completed.<br><br>
+
+• Premium Economy upgrades are NOT permitted on codeshare partner flights.
+
+</div>
+
+<center>
+<button onclick="showPage('aircanada')">Back</button>
+</center>
+
+</section>
 
 <!-- AIR CANADA NAME -->
-<section id="acname"><h1>Air Canada - Name Correction Policy</h1><div class="grid"><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>3-Character Rule</h3><p>Air Canada allows corrections for small typographical errors without requiring a complete ticket reissue. Examples include names such as “Sarah” corrected from “Srah”.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Fees</h3><p>Passengers with Standard or Flex fares may pay correction fees ranging from $60 to $125 CAD depending on fare rules.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>Business / Latitude</h3><p>Business and Latitude fares often include free name corrections. Missing middle names are usually accepted if first and last names match the passenger ID exactly.</p></div></div><div class="card"><img src="image/logo2.jpg"><div class="overlay"><h3>24-Hour Rule</h3><p>Passengers may cancel or correct bookings free of charge within 24 hours after purchase.</p></div></div></div><center><button onclick="showPage('aircanada')">Back</button></center></section>
+<section id="acname">
 
-<!-- CHAT MODAL -->
+<h1>Air Canada - Name Correction Policy</h1>
+
+<h2>Important Rules</h2>
+
+<div class="note">
+
+• All VA (795) ticket stock follows Virgin Australia name policy.<br><br>
+
+• Middle names are NOT required.<br><br>
+
+• Name changes are NOT permitted.<br><br>
+
+• Name corrections are NOT permitted in the same PNR.<br><br>
+
+• Agents must create a NEW PNR for corrections.
+
+</div>
+
+<br><br>
+
+<h2>Allowed Name Corrections</h2>
+
+<table>
+<thead><tr><th>Correction Type</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Incorrect spelling up to 3 characters</td><td>Samuelle Smyth → Samuel Smith</td></tr>
+<tr><td>Change in salutation</td><td>Ms Mary Smith → Mrs Mary Smith</td></tr>
+<tr><td>Shortened version of name</td><td>Liz → Elizabeth</td></tr>
+<tr><td>Name sequence correction</td><td>Smith Samuel → Samuel Smith</td></tr>
+<tr><td>Formal legal name update</td><td>Updated based on identification</td></tr>
+<tr><td>Marital status update</td><td>Surname changes after marriage</td></tr>
+<tr><td>Gender status update</td><td>Passenger gender correction</td></tr>
+</tbody>
+</table>
+
+<br><br>
+
+<h2>Name Correction Procedure</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="image/logo2.jpg">
+
+<div class="overlay">
+
+<h3>Procedure</h3>
+
+<p>
+
+1. Retrieve the booking PNR.<br><br>
+
+2. Verify if correction fits Air Canada rules.<br><br>
+
+3. Create a NEW PNR with corrected passenger details.<br><br>
+
+4. Existing PNR cannot be modified.<br><br>
+
+5. Apply applicable Name Correction Service Fee.<br><br>
+
+6. Rebook flights using same RBD if available.<br><br>
+
+7. Resend updated itinerary to guest.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<br><br>
+
+<div class="small-box">
+
+<h3 style="margin-bottom:15px;">
+If Same Booking Class Is Unavailable
+</h3>
+
+<p>
+
+Email airline.partnerships@virginaustralia.com and CC GCCChangeandComms@virginaustralia.com for assistance with unavailable RBD inventory before processing the new booking.
+
+</p>
+
+</div>
+
+<center>
+<button onclick="showPage('aircanada')">Back</button>
+</center>
+
+</section>
+
+<!-- CHAT MODAL (EMBEDDED CHATBOT) -->
 <div id="guideChatOverlay" class="chat-overlay">
     <div class="chat-container">
         <div class="chat-header">
@@ -515,16 +1324,37 @@ table th, table td{
             <button class="close-chat" id="closeChatBtn">✖</button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="message bot-msg">👋 Hello! Try these commands:<br>📌 <b>10triviasua</b> → 10 United trivias<br>📌 <b>10triviasac</b> → 10 Air Canada trivias<br>📌 <b>10triviasuava</b> → United+Virgin Australia trivias<br>📌 <b>10triviasacva</b> → Air Canada+Virgin Australia trivias<br>📌 <b>websiteua / websiteac</b> → official websites<br>📌 <b>aircraft</b> → aircraft fleet links<br>📌 <b>fare classes</b> or <b>fare brands</b><br>Also ask about SSR, name policy, hubs, etc.</div>
+            <div class="message bot-msg">👋 Hello! Try these commands:<br>📌 <b>uafunfacts</b> → 11 United Airlines Fun Facts<br>📌 <b>acfunfacts</b> → 11 Air Canada Fun Facts<br>📌 <b>10triviasua</b> → 10 United Airline trivias<br>📌 <b>10triviasac</b> → 10 Air Canada trivias<br>📌 <b>10triviasuava</b> → United+Virgin Australia trivias<br>📌 <b>10triviasacva</b> → Air Canada+Virgin Australia trivias<br>📌 <b>websiteua / websiteac</b> → official websites<br>📌 <b>aircraft</b> → aircraft fleet links<br>📌 <b>fare classes</b> or <b>fare brands</b><br>Also ask about SSR, name policy, hubs, etc.</div>
         </div>
         <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="Try: 10triviasua, aircraft, websiteac..." autocomplete="off">
+            <input type="text" id="chatInput" placeholder="Try: uafunfacts, acfunfacts, 10triviasua, aircraft, websiteac..." autocomplete="off">
             <button id="sendChatBtn">Send</button>
         </div>
         <div class="command-hint">💡 Commands: 10triviasua | 10triviasac | 10triviasuava | 10triviasacva | websiteua | websiteac | aircraft | fare classes</div>
     </div>
 </div>
 
+
+
+
+<!-- ========== FUN FACTS MODAL (POPUP) ========== -->
+<div id="factModal" class="funfacts-modal">
+    <div class="modal-card">
+        <h2 id="modalTitle">11 Fun Facts</h2>
+        <div id="modalFactsList"></div>
+        <button class="close-modal-btn" id="closeModalBtn">Close</button>
+    </div>
+</div>
+<!-- VIDEO PLAYER MODAL - UPDATED FOR MP4 -->
+<div id="videoModal" class="video-modal">
+    <div class="video-box">
+        <button class="close-video" onclick="closeVideo()">✖</button>
+        <video id="videoPlayer" width="100%" height="500" controls autoplay style="border-radius: 20px; border: 3px solid white; background: black;">
+            <source id="videoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
 <script>
 
 function showPage(pageId){
@@ -550,6 +1380,35 @@ function addMessage(text, isUser = false) {
     chatMessagesDiv.appendChild(msgDiv);
     chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
 }
+function getUnitedFacts() {
+    return `🧸 11 UNITED AIRLINES FUN FACTS:
+1. Created Flight Attendants: Hired Ellen Church in 1930 – world's first female flight attendant.
+2. Born from Boeing: Same company as Boeing until antitrust split in 1934.
+3. In-Flight Kitchen Pioneer: Opened first commercial airline flight kitchen (1936).
+4. First 777 Customer: Co-designed Boeing 777, first to fly it (1995).
+5. The Friendly Skies: Iconic slogan since 1965.
+6. Rhapsody in Blue: Gershwin's theme since 1980.
+7. Continental Identity: Kept United name but adopted Continental's globe logo after 2010 merger.
+8. World's Loneliest Route: 'Island Hopper' Flight 154 (Honolulu–Guam).
+9. Eco-Skies: First US airline to use sustainable aviation fuel in 2016.
+10. Supersonic Future: Orders for Boom Overture supersonic jet.
+11. 🧸 Ben Flyin Mascot: Organic-cotton teddy bear mascot.`;
+}
+
+function getAirCanadaFacts() {
+    return `🍁 11 AIR CANADA FUN FACTS:
+1. Started with Mail in 1937.
+2. First All-Female Crew in 1978.
+3. Early smoke-free airline.
+4. Founding Star Alliance member.
+5. Maple Leaf signature branding.
+6. Olympic carrier of Canada.
+7. Air Canada Jetz luxury fleet.
+8. Canadian artwork collections.
+9. Renamed from TCA in 1965.
+10. Famous Maple Leaf Rondelle logo.
+11. 🍁 Uses no animal branding.`;
+}
 
 function getBotAnswer(q) {
     const query = q.toLowerCase().trim();
@@ -559,7 +1418,7 @@ function getBotAnswer(q) {
         return "✈️ 10 Trivias: United Airlines & Virgin Australia:\n1. Partnership allows easy US-Australia connections.\n2. United became major partner after Virgin ended Delta alliance.\n3. Earn miles between MileagePlus & Velocity.\n4. Virgin connects to Sydney, Melbourne, Brisbane.\n5. United operates long-haul to Australia; Virgin provides domestic links.\n6. Improved travel for business & tourism across Pacific.\n7. Coordinated schedules for smoother transfers.\n8. Lounge access for premium/frequent flyers.\n9. Pandemic route adjustments to restore demand.\n10. Strengthened competition against Qantas & American on Pacific routes.";
     }
     if(query === '10triviasacva') {
-        return "🍁✈️ 10 Trivias: Air Canada & Virgin Australia (indirect partnerships):\n1. Air Canada is Canada’s flag carrier; Virgin Atlantic is UK-based.\n2. Both connect via London Heathrow.\n3. Air Canada (Star Alliance) vs Virgin Atlantic (SkyTeam).\n4. Both operate 787 Dreamliner & A330.\n5. Air Canada connects Toronto/Vancouver globally; Virgin connects London to Americas.\n6. Compete on transatlantic premium cabins.\n7. Aeroplan vs Virgin Points loyalty.\n8. Virgin Australia links via global booking systems.\n9. Strong inflight branding: maple leaf vs bold red Virgin.\n10. Post-COVID adapted networks focusing on high-demand corridors.";
+        return "🍁✈️ 10 Trivias: Air Canada & Virgin Australia (indirect partnerships):\n1. Air Canada is Canada's flag carrier; Virgin Atlantic is UK-based.\n2. Both connect via London Heathrow.\n3. Air Canada (Star Alliance) vs Virgin Atlantic (SkyTeam).\n4. Both operate 787 Dreamliner & A330.\n5. Air Canada connects Toronto/Vancouver globally; Virgin connects London to Americas.\n6. Compete on transatlantic premium cabins.\n7. Aeroplan vs Virgin Points loyalty.\n8. Virgin Australia links via global booking systems.\n9. Strong inflight branding: maple leaf vs bold red Virgin.\n10. Post-COVID adapted networks focusing on high-demand corridors.";
     }
     if(query === '10triviasua') {
         return "✈️ 10 Trivias about United Airlines:\n1. Founded 1926, one of oldest airlines.\n2. One of world's largest by fleet & network.\n3. Founding member of Star Alliance.\n4. Major hubs: Chicago, Denver, Houston.\n5. First airline to introduce Boeing 777.\n6. MileagePlus loyalty program.\n7. Flights to every inhabited continent.\n8. San Francisco as key Asia-Pacific gateway.\n9. Merged with Continental in 2010.\n10. Operates one of largest Boeing & Airbus fleets.";
@@ -567,7 +1426,23 @@ function getBotAnswer(q) {
     if(query === '10triviasac') {
         return "🍁 10 Trivias about Air Canada:\n1. Founded 1937, largest Canadian airline.\n2. Founding Star Alliance member.\n3. Main hub: Toronto Pearson (YYZ).\n4. Major routes from Vancouver & Montreal.\n5. Operates Boeing 787 Dreamliner.\n6. Aeroplan loyalty program.\n7. Serves 180+ destinations on six continents.\n8. Vancouver hub connects Canada to Asia-Pacific.\n9. Privatized in 1989 (formerly government-owned).\n10. Operates Air Canada Rouge for leisure routes.";
     }
-    
+    if(query === 'ua facts' || query === 'united facts' || query === 'uafacts' || query === '11 united facts') {
+    return getUnitedFacts();
+}
+
+// Air Canada 11 Facts command
+if(query === 'ac facts' || query === 'air canada facts' || query === 'acfacts' || query === '11 air canada facts') {
+    return getAirCanadaFacts();
+}
+
+// Shorter versions
+if(query === 'uafunfacts') {
+    return getUnitedFacts();
+}
+
+if(query === 'acfunfacts') {
+    return getAirCanadaFacts();
+}
     // 2. WEBSITE COMMANDS
     if(query === 'websiteua') {
         return "🌐 United Airlines Official Website:\nhttps://www.united.com/en/us";
@@ -592,15 +1467,50 @@ function getBotAnswer(q) {
         return "✈️ United Fare Brands: Basic Economy, Economy, Economy Plus, Premium Plus, Polaris. Fare letters: Y,B,M,H,Q,V,W,S,T,L,K,G,O,I.\n\n🍁 Air Canada Fare Brands: Basic, Standard, Flex, Comfort, Premium Economy, Signature. Fare letters: Y,B,M,U,H,Q,V,W,S,T,L,K,P,J,Z,C,O,E.";
     }
     
-    // 5. GENERAL TRIVIA or existing knowledge
-    if(query.includes('united') && query.includes('virgin australia') && query.includes('trivia')) {
-        return "United & Virgin Australia partnership trivias: Type '10triviasuava' for full list!";
+    // 5. SSR SHORTCUTS (NEW)
+    if(query === 'ua ssr' || query === 'united ssr') {
+        return "✈️ UNITED SSR CODES:\n• BSCT (Bassinet)\n• BLND (Blind passenger)\n• DEAF (Deaf passenger)\n• WCHC/WCHR/WCHS (Wheelchair)\n• INF (Infant without seat)\n• FQTV (Frequent Flyer)\n• Special Meals: AVML, GFML, KSML, VGML (24h notice)";
     }
-    if(query.includes('air canada') && query.includes('virgin australia')) {
-        return "Air Canada & Virgin Group context: Type '10triviasacva' for the 10 trivias including Virgin Atlantic/partnership details.";
+    if(query === 'ac ssr' || query === 'air canada ssr') {
+        return "🍁 AIR CANADA SSR CODES:\n• BSCT (Bassinet)\n• YPTA (Youth 12-17 alone)\n• BLND/DEAF\n• WCHC/R/S (Wheelchair)\n• INF (Infant lap) / INS (Infant seat)\n• Special Meals (long haul): AVML, BBML, KSML, VGML, VLML, MOML (48h notice)";
     }
     
-    // 6. STANDARD RESPONSES (preserve original content)
+    // 6. ROUTES SHORTCUTS (NEW)
+    if(query === 'ua routes' || query === 'united routes') {
+        return "🌎 UNITED ROUTES (Australia ↔ USA):\n• SYD–SFO (Daily)\n• MEL–LAX (Daily)\n• BNE–SFO (3x weekly)\n• ADL–SFO (3x weekly from Dec 2025)\n• SYD–IAH (4x weekly)\nCodeshare: VA8000–VA8599. Velocity points eligible.";
+    }
+    if(query === 'ac routes' || query === 'air canada routes') {
+        return "🍁 AIR CANADA ROUTES (Australia ↔ Canada):\n• BNE–YVR (Daily)\n• SYD–YVR (Daily + seasonal)\nDomestic: YYC, YEG, YLW, YUL, YOW, YYZ, YWG\n📌 eTA required for Australians.";
+    }
+    
+    // 7. NAME POLICY SHORTCUTS (NEW)
+    if(query === 'ua name' || query === 'united name policy') {
+        return "📛 UNITED NAME CORRECTION:\n• Up to 3 incorrect characters allowed\n• Name changes NOT permitted\n• Middle names not required\n• Procedure: New booking + reassociate ticket + reissue fee";
+    }
+    if(query === 'ac name' || query === 'air canada name policy') {
+        return "📛 AIR CANADA NAME CORRECTION:\n• Must create NEW PNR (cannot modify existing)\n• Max 3 spelling characters fixed\n• Salutation, shortened name, gender update allowed\n• Name change NOT permitted • Fee applies";
+    }
+    
+    // 8. 11 FUN FACTS SHORTCUTS (NEW - exact content from modal)
+    if(query === 'ua facts' || query === 'united facts' || query === 'uafacts') {
+        return "🧸 11 UNITED AIRLINES FUN FACTS:\n1. Created Flight Attendants: Hired Ellen Church in 1930 – world's first female flight attendant.\n2. Born from Boeing: Same company as Boeing until antitrust split in 1934.\n3. In-Flight Kitchen Pioneer: Opened first commercial airline flight kitchen (1936).\n4. First 777 Customer: Co-designed Boeing 777, first to fly it (1995).\n5. The Friendly Skies: Iconic slogan since 1965.\n6. Rhapsody in Blue: Gershwin's theme since 1980.\n7. Continental Identity: Kept United name but adopted Continental's globe logo after 2010 merger.\n8. World's Loneliest Route: 'Island Hopper' Flight 154 (Honolulu–Guam) with 5 remote stops.\n9. Eco-Skies: First US airline to use sustainable aviation fuel in 2016.\n10. Supersonic Future: Orders for Boom Overture supersonic airliner.\n11. 🧸 Ben Flyin Mascot: Organic-cotton teddy bear given to children in hospitals worldwide.";
+    }
+    if(query === 'ac facts' || query === 'air canada facts' || query === 'acfacts') {
+        return "🍁 11 AIR CANADA FUN FACTS:\n1. Started with Mail: Began in 1937 as TCA, first flight carried mail and two passengers.\n2. First All-Female Crew: In 1978, first flight staffed entirely by all-female crew.\n3. Pioneered Smoke-Free Flying: One of first major airlines to ban smoking on all flights in 1988.\n4. Heart of the Alliance: Founding member of Star Alliance (1997).\n5. Special Maple Leaf Flavor: Signature Maple Leaf cocktail & Canadian snacks in lounges.\n6. Olympic Carrier: Official airline of Canadian Olympic and Paralympic teams.\n7. Jetz Charter: Elite luxury fleet for NHL teams and music stars.\n8. Art in the Skies: Corporate art collection with 1,000+ Canadian artworks.\n9. Name Change by Law: Renamed from TCA to Air Canada in 1965.\n10. The Maple Leaf Livery: Iconic red maple leaf 'Rondelle' – top global symbol.\n11. 🍁 No Animal Logo: Uses zero animal branding — only the maple leaf.";
+    }
+    
+    // 9. MEAL, WHEELCHAIR, INFANT SHORTCUTS
+    if(query.includes('meal') && query.includes('ssr')) {
+        return "🍽️ SPECIAL MEAL SSR:\n• United: AVML, GFML, KSML, VGML (request 24h prior)\n• Air Canada: AVML, BBML, KSML, VGML, VLML, MOML (long haul, 48h notice)";
+    }
+    if(query.includes('wheelchair')) {
+        return "♿ WHEELCHAIR SSR CODES:\n• WCHR (ramp - can walk stairs)\n• WCHS (stairs - needs assistance)\n• WCHC (completely immobile)";
+    }
+    if(query.includes('infant')) {
+        return "👶 INFANT SSR CODES:\n• INF = Infant without seat (lap infant)\n• INS = Infant with seat (own seat)\n• BSCT = Bassinet request";
+    }
+    
+    // 10. GENERAL RESPONSES
     if(query.includes('united') || query.includes('ua')) {
         if(query.includes('ssr') || query.includes('wheelchair') || query.includes('medical')) return "United SSR codes: WCHR/WCHS (wheelchair), MEDA/OXYG (medical), VGML/KSML (meals), INFT/BSCT (infants), MAAS/BLND, PETC, UMNR.";
         if(query.includes('name') || query.includes('correction')) return "United name policy: Up to 3 incorrect characters free on UA metal. 24-hour free cancellation. Legal changes need documents.";
@@ -616,7 +1526,7 @@ function getBotAnswer(q) {
     if(query.includes('2026') && query.includes('infant')) return "As of June 1, 2026, INST (Infant with a seat) SSR is mandatory for most international carriers including United & Air Canada.";
     if(query.includes('ssr')) return "Common SSR codes: WCHR (wheelchair), MEDA (medical), INFT (infant lap), BSCT (bassinet), UMNR (minor), PETC (pet).";
     
-    return "🤖 Available commands:\n• 10triviasua – United trivias\n• 10triviasac – Air Canada trivias\n• 10triviasuava – United+Virgin Australia\n• 10triviasacva – Air Canada+Virgin Australia\n• websiteua / websiteac – official links\n• aircraft – fleet URLs\n• fare classes – United & AC fare brands\nAsk about SSR, name correction, hubs, etc!";
+    return "🤖 Available commands:\n• 10triviasua – United trivias\n• 10triviasac – Air Canada trivias\n• ua facts / ac facts – 11 fun facts\n• ua ssr / ac ssr – SSR codes\n• ua routes / ac routes – route networks\n• ua name / ac name – name policy\n• websiteua / websiteac – official links\n• aircraft – fleet URLs\n• fare classes – United & AC fare brands\nAsk about SSR, name correction, hubs, etc!";
 }
 
 function sendMessage() {
@@ -638,6 +1548,80 @@ closeChatBtn.addEventListener('click', closeChat);
 sendBtn.addEventListener('click', sendMessage);
 chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
 chatOverlay.addEventListener('click', (e) => { if(e.target === chatOverlay) closeChat(); });
+
+// ========== FUN FACTS MODAL LOGIC ==========
+const modal = document.getElementById('factModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalFactsList = document.getElementById('modalFactsList');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+function showAirCanadaFacts() {
+    modalTitle.innerText = "🍁 11 Fun Facts About Air Canada";
+    const facts = [
+        "1. Started with Mail: It began in 1937 as Trans-Canada Air Lines (TCA), and its very first flight carried mail and two passengers from Vancouver to Seattle.",
+        "2. First All-Female Crew: In 1978, Air Canada operated its first flight staffed entirely by an all-female flight crew and captain.",
+        "3. Pioneered Smoke-Free Flying: It became one of the first major global airlines to completely ban smoking on all its flights in 1988.",
+        "4. Heart of the Alliance: It is one of the five founding members that created the Star Alliance network in 1997.",
+        "5. Special Maple Leaf Flavor: The airline serves a customized, signature Maple Leaf cocktail and specific Canadian snacks in its premium lounges.",
+        "6. Olympic Carrier: Air Canada is the official airline of the Canadian Olympic and Paralympic teams, flying athletes to the games for decades.",
+        "7. Jetz Charter: It operates a special elite luxury fleet called Air Canada Jetz, which is used exclusively to fly professional sports teams (like NHL teams) and music stars on tour.",
+        "8. Art in the Skies: The airline boasts a massive corporate art collection featuring over 1,000 artworks by Canadian artists, some of which are displayed in its lounges.",
+        "9. Name Change by Law: The airline officially changed its name from Trans-Canada Air Lines to Air Canada in 1965 after a bill was passed in the Canadian Parliament.",
+        "10. The Maple Leaf Livery: The famous red maple leaf logo on the tail, known as the \"Rondelle,\" has been redesigned multiple times but remains one of the most recognized national symbols in global aviation.",
+        "11. 🍁 No Animal Logo: Unlike competitors like Porter Airlines (which uses a raccoon), Air Canada uses absolutely no animal branding, relying entirely on the iconic Canadian Maple Leaf."
+    ];
+    modalFactsList.innerHTML = `<ul>${facts.map(f => `<li>${f}</li>`).join('')}</ul>`;
+    modal.classList.add('active-modal');
+}
+
+function showUnitedFacts() {
+    modalTitle.innerText = "🧸 11 Fun Facts About United Airlines";
+    const facts = [
+        "1. Created Flight Attendants: In 1930, United hired Ellen Church, a registered nurse, making her the world's very first female flight attendant.",
+        "2. Born from Boeing: United Airlines and Boeing airplanes were originally part of the exact same company before government antitrust laws forced them to split in 1934.",
+        "3. In-Flight Kitchen Pioneer: United opened the world's very first commercial airline flight kitchen in 1936 to serve hot meals to passengers in the air.",
+        "4. First 777 Customer: United completely co-designed the famous Boeing 777 aircraft alongside Boeing and was the first airline in the world to fly it commercially in 1995.",
+        "5. The Friendly Skies: Its world-famous marketing slogan, \"Fly the Friendly Skies,\" was first introduced in 1965 and remains one of the most recognizable taglines in history.",
+        "6. Rhapsody in Blue: Since 1980, United has used George Gershwin's iconic song \"Rhapsody in Blue\" as its official theme music during boarding and in commercials.",
+        "7. The Continental Identity: When United merged with Continental Airlines in 2010, it kept the United name but completely took over Continental's blue and gold globe logo.",
+        "8. World's Loneliest Route: United operates the famous \"Island Hopper\" (Flight 154), which flies from Honolulu to Guam, stopping at five remote Pacific islands along the way.",
+        "9. Eco-Skies: It became the first U.S. airline to use commercial quantities of sustainable aviation fuel (SAF) on regular passenger flights starting in 2016.",
+        "10. Supersonic Future: United made headlines by placing orders for the Overture supersonic airliner from Boom Supersonic, aiming to bring back supersonic passenger travel later this decade.",
+        "11. 🧸 Ben Flyin Mascot: While planes feature a globe instead of an animal, United's official charitable mascot is a comforting, organic-cotton teddy bear named \"Ben Flyin\" given to children in hospitals worldwide."
+    ];
+    modalFactsList.innerHTML = `<ul>${facts.map(f => `<li>${f}</li>`).join('')}</ul>`;
+    modal.classList.add('active-modal');
+}
+
+document.getElementById('mapleLeafBtn').addEventListener('click', showAirCanadaFacts);
+document.getElementById('teddyBearBtn').addEventListener('click', showUnitedFacts);
+closeModalBtn.addEventListener('click', () => { modal.classList.remove('active-modal'); });
+modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active-modal'); });
+// Replace the existing openVideo and closeVideo functions with these:
+
+const videoModal = document.getElementById('videoModal');
+const videoPlayer = document.getElementById('videoPlayer');
+const videoSource = document.getElementById('videoSource');
+
+function openVideo(videoPath) {
+    videoSource.src = videoPath;
+    videoPlayer.load();
+    videoModal.classList.add('active-video');
+    videoPlayer.play();
+}
+
+function closeVideo() {
+    videoPlayer.pause();
+    videoSource.src = "";
+    videoPlayer.load();
+    videoModal.classList.remove('active-video');
+}
+
+videoModal.addEventListener('click', (e) => {
+    if(e.target === videoModal){
+        closeVideo();
+    }
+});
 
 </script>
 
